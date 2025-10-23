@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # Contenedor Frontend - React
+  frontend-hugo:
+    container_name: frontend-hugo-inclan
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    networks:
+      - red-inclan
+    depends_on:
+      - backend-francisco
+
+  # Contenedor Backend - FastAPI
+  backend-francisco:
+    container_name: backend-francisco-inclan
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=database-luis
+      - DB_PORT=3306
+      - DB_USER=hugo_user
+      - DB_PASSWORD=HugoSecurePass2024!
+      - DB_NAME=hugo_francisco_luis_inclan_db
+    networks:
+      - red-inclan
+    depends_on:
+      - database-luis
+    restart: unless-stopped
+
+  # Contenedor Base de Datos - MySQL
+  database-luis:
+    container_name: database-luis-inclan
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=RootSecurePass2024!
+      - MYSQL_DATABASE=hugo_francisco_luis_inclan_db
+      - MYSQL_USER=hugo_user
+      - MYSQL_PASSWORD=HugoSecurePass2024!
+    volumes:
+      - datos-inclan:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - red-inclan
+    restart: unless-stopped
+
+networks:
+  red-inclan:
+    driver: bridge
+
+volumes:
+  datos-inclan:
+    driver: local
