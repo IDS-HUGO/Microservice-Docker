@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FaMusic, FaPlus, FaEdit, FaTrash, FaExternalLinkAlt, FaTimes } from 'react-icons/fa';
 import './App.css';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const API_URL = process.env.REACT_APP_API_URL || 'http://54.88.82.65:8000';
 
 function App() {
   const [canciones, setCanciones] = useState([]);

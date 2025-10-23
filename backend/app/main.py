@@ -12,7 +12,7 @@ app = FastAPI(title="API de Canciones Favoritas - Hugo Francisco Luis Inclán")
 # Configurar CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000", "http://54.88.82.65:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
